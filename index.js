@@ -7,11 +7,15 @@ import axios from 'axios';
 import {load} from 'cheerio';
 import fs from 'fs';
 import { setTimeout } from 'timers/promises';
+import dotenv from 'dotenv'
 
-import { slugify, getPage, handleFileJSON } from './src/utils';
+import { slugify, getPage, handleFileJSON } from './src/utils.js';
 
+dotenv.config({ path: './.env.local' })
+console.log()
 const BASE_URL = 'https://qigongbrasil.blogspot.com'
 const SITE_MAP = `${BASE_URL}/sitemap.xml`
+const PROJECT_KEY = process.env.PROJECT_KEY
 
 const getItems = async (html, xml) => {
   const $ = load(html, {xmlMode: xml});
@@ -44,7 +48,7 @@ const getArticle = async () => {
 }
 const sitemap = await getPage(SITE_MAP)
 
-getItems(sitemap.data, true);
-getArticle()
+/* getItems(sitemap.data, true);
+getArticle() */
 
 
