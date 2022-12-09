@@ -1,5 +1,5 @@
-import e from "express";
-import { router } from "./routes/index.js";
+const e = require("express");
+const { router } = require("./routes/index.js");
 
 const PORT = process.env.PORT || 3000;
 const app = e();
@@ -7,4 +7,4 @@ const app = e();
 app.use(router);
 app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
 
-export { app };
+module.exports = { app };

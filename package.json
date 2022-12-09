@@ -18,7 +18,6 @@
     "nodemon": "^2.0.20",
     "timers-promises": "^1.0.1"
   },
-  "type": "module",
   "engineStrict": true,
   "engines": {
     "node": "14"

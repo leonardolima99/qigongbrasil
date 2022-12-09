@@ -1,11 +1,11 @@
-import e from "express";
-import {
+const e = require("express");
+const {
   scrape_urls,
   scrape_posts,
   get_post,
   get_all_posts,
   search_posts,
-} from "../controllers/posts.controller.js";
+} = require("../controllers/posts.controller.js");
 
 const router = e.Router();
 
@@ -19,4 +19,4 @@ router
   .post("/scrape_urls", scrape_urls)
   .post("/scrape_posts", scrape_posts);
 
-export { router };
+module.exports = { router };

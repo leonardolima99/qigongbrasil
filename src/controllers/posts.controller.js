@@ -1,17 +1,15 @@
-import axios from "axios";
-import { setTimeout } from "timers-promises";
-import { load } from "cheerio";
-import { Deta } from "deta";
+const { setTimeout } = require("timers-promises");
+const { load } = require("cheerio");
+const { Deta } = require("deta");
 
-import {
+const {
   slugify,
   getPage,
   handleFileJSON,
   get_timestamp_from_string,
-} from "../utils/index.js";
+} = require("../utils/index.js");
 
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 const BASE_URL = "https://qigongbrasil.blogspot.com";
 const SITE_MAP = `${BASE_URL}/sitemap.xml`;
@@ -20,7 +18,7 @@ const PROJECT_KEY = process.env.PROJECT_KEY;
 const deta = Deta(PROJECT_KEY);
 const db = deta.Base("posts");
 
-export const scrape_urls = async (req, res) => {
+const scrape_urls = async (req, res) => {
   const sitemap = await getPage(SITE_MAP);
   const $ = load(sitemap.data, { xmlMode: true });
   let count = 0;
@@ -39,7 +37,7 @@ export const scrape_urls = async (req, res) => {
   });
   res.status(201).json({ message: "Done 👌" });
 };
-export const scrape_posts = async (req, res) => {
+const scrape_posts = async (req, res) => {
   try {
     let result = await db.fetch();
     let allItems = result.items;
@@ -84,7 +82,7 @@ export const scrape_posts = async (req, res) => {
     res.json({ error: error.message });
   }
 };
-export const get_all_posts = async (req, res) => {
+const get_all_posts = async (req, res) => {
   const { last, limit } = req.query;
   let result = await db.fetch({}, { last, limit: Number(limit) });
   let allItems = result.items;
@@ -107,7 +105,7 @@ export const get_all_posts = async (req, res) => {
 
   res.json({ posts, count: posts.length, last: result.last });
 };
-export const search_posts = async (req, res) => {
+const search_posts = async (req, res) => {
   const { last, limit, q } = req.query;
   let {
     count,
@@ -131,8 +129,16 @@ export const search_posts = async (req, res) => {
 
   res.json({ posts, count, last: lastKey });
 };
-export const get_post = async (req, res) => {
+const get_post = async (req, res) => {
   const { key } = req.params;
   const item = await db.get(key);
   res.json(item);
+};
+
+module.exports = {
+  scrape_urls,
+  scrape_posts,
+  get_all_posts,
+  search_posts,
+  get_post,
 };

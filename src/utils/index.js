@@ -1,5 +1,5 @@
-import fs from "fs";
-import axios from "axios";
+const fs = require("fs");
+const axios = require("axios");
 
 const get_month_number = (month) => {
   const months = [
@@ -20,7 +20,7 @@ const get_month_number = (month) => {
   return months.findIndex((item) => item === month) + 1;
 };
 
-export const slugify = (string) => {
+const slugify = (string) => {
   const a =
     "àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìıİłḿñńǹňôöòóœøōõőṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;";
   const b =
@@ -38,10 +38,10 @@ export const slugify = (string) => {
     .replace(/^-+/, "") // Trim - from start of text
     .replace(/-+$/, ""); // Trim - from end of text
 };
-export const checkFileExist = async (path) => {
+const checkFileExist = async (path) => {
   return fs.existsSync(path);
 };
-export const getPage = async (url) => {
+const getPage = async (url) => {
   const headers = {
     accept:
       "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
@@ -61,14 +61,22 @@ export const getPage = async (url) => {
   };
   return await axios.get(url, { headers });
 };
-export const handleFileJSON = async (path, content) => {
+const handleFileJSON = async (path, content) => {
   if (!checkFileExist(path)) fs.createWriteStream(path);
   fs.writeFileSync(path, JSON.stringify(content));
 };
-export const get_timestamp_from_string = (date) => {
+const get_timestamp_from_string = (date) => {
   let temp = date.split(",")[1].trim().split(" de ");
 
   return new Date(
     `${get_month_number(temp[1])}-${Number(temp[0])}-${Number(temp[2])}`
   ).getTime();
+};
+
+module.exports = {
+  slugify,
+  checkFileExist,
+  getPage,
+  handleFileJSON,
+  get_timestamp_from_string,
 };
