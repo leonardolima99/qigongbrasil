@@ -2,9 +2,9 @@
   "name": "qigongbrasil",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon server.js -i data"
+    "dev": "nodemon src/server.js -i data"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +15,12 @@
     "deta": "^1.1.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "timers-promises": "^1.0.1"
   },
-  "type": "module"
+  "type": "module",
+  "engineStrict": true,
+  "engines": {
+    "node": "14"
+  }
 }
